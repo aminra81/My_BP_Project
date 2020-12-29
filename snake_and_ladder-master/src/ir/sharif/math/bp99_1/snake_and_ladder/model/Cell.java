@@ -77,7 +77,12 @@ public class Cell {
      */
     public boolean canEnter(Piece piece) {
 
-
+        if(getColor() == Color.BLACK)
+            return false;
+        if(getPiece() != null)
+            return false;
+        if(getColor() == Color.WHITE || getColor() == piece.getColor())
+            return true;
         return false;
     }
 
