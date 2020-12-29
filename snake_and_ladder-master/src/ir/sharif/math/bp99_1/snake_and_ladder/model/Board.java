@@ -42,6 +42,9 @@ public class Board {
      * return null if not exist.
      */
     public Cell getCell(int x, int y) {
+        for (Cell cell : getCells())
+            if(cell.getX() == x && cell.getY() == y)
+                return cell;
         return null;
     }
 }

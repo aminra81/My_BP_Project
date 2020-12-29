@@ -35,7 +35,6 @@ public class ModelLoader {
     public Board loadBord() {
         try {
             Scanner scanner = new Scanner(boardFile);
-
             // Code Here
 
 
