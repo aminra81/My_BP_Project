@@ -45,9 +45,9 @@ public class GameState {
      * else return a player who's turn is now.
      */
     public Player getCurrentPlayer() {
-
-
-        return null;
+        if(isStarted() == false)
+            return null;
+        return getPlayer(getTurn() % 2);
     }
 
 
@@ -56,8 +56,10 @@ public class GameState {
      * you can use method "endTurn" in class "Player" (not necessary, but recommanded)
      */
     public void nextTurn() {
-
-
+        Player curPlayer = getCurrentPlayer();
+        curPlayer.endTurn();
+        turn++;
+        //board is not changed here.
     }
 
 

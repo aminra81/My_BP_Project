@@ -24,7 +24,9 @@ public class Transmitter {
      * transmit piece to lastCell
      */
     public void transmit(Piece piece) {
-
+        if(getLastCell().canEnter(piece) == false || !piece.getCurrentCell().equals(firstCell))
+            return;
+        piece.moveTo(getLastCell());
     }
 
 }

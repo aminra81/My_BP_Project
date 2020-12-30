@@ -1,6 +1,7 @@
 package ir.sharif.math.bp99_1.snake_and_ladder.model.prizes;
 
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
+import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.Piece;
 
 public class Prize {
@@ -38,7 +39,10 @@ public class Prize {
      * you can use method "usePrize" in class "Player" (not necessary, but recommended)
      */
     public void using(Piece piece) {
-
+        if(!piece.getCurrentCell().equals(this.getCell()))
+            return;
+        Player curPlayer = piece.getPlayer();
+        curPlayer.usePrize(this);
     }
 
 }
