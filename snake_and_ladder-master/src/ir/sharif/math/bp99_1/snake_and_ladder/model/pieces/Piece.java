@@ -77,5 +77,6 @@ public class Piece {
         this.getCurrentCell().setPiece(null);
         setCurrentCell(destination);
         this.getCurrentCell().setPiece(this);
+        setSelected(false);
     }
 }
