@@ -117,7 +117,9 @@ public class Player {
      *              you can use method "addChance" in class "Dice"(not necessary, but recommended)
      */
     public void usePrize(Prize prize) {
-
+        applyOnScore(prize.getPoint());
+        Dice thisDice = getDice();
+        thisDice.addChance(prize.getDiceNumber(), prize.getChance());
     }
 
 
@@ -130,7 +132,14 @@ public class Player {
      */
     public boolean hasMove(Board board, int diceNumber) {
 
-
+        int X[] = {0, 0, diceNumber, -diceNumber};
+        int Y[] = {diceNumber, -diceNumber, 0, 0};
+        for (Piece piece : getPieces())
+            for (int dir = 0; dir < 4; dir++) {
+                Cell destination = board.getCell(piece.getCurrentCell().getX() + X[dir], piece.getCurrentCell().getY() + Y[dir]);
+                if(destination != null && piece.isValidMove(destination, diceNumber))
+                    return true;
+            }
         return false;
     }
 
@@ -140,8 +149,11 @@ public class Player {
      */
     // **
     public void endTurn() {
-
-
+        //Deselect this player's piece.
+        Piece thisPiece = getSelectedPiece();
+        thisPiece.setSelected(false);
+        setMoveLeft(0);
+        setSelectedPiece(null);
     }
 
 
