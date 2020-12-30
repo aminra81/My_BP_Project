@@ -85,6 +85,13 @@ public class Cell {
         return false;
     }
 
+    public Cell adjacentOpen(int dirx, int diry){
+        for (Cell cell : getAdjacentOpenCells())
+            if(cell.getX() == this.getX() + dirx && cell.getY() == this.getY() + diry)
+                return cell;
+        return null;
+    }
+
 
     /**
      * DO NOT CHANGE FOLLOWING METHODS.

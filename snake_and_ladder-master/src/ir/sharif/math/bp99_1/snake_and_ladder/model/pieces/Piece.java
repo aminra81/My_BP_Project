@@ -4,6 +4,9 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Color;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
 
+import javax.print.attribute.standard.Destination;
+import java.util.Currency;
+
 public class Piece {
     private Cell currentCell;
     private final Color color;
@@ -51,15 +54,28 @@ public class Piece {
      * if your movement is valid, return "true" , else return " false"
      */
     public boolean isValidMove(Cell destination, int diceNumber) {
-
-
-        return false;
+        Cell currentCell = this.getCurrentCell();
+        int dirx = destination.getX() - currentCell.getX();
+        int diry = destination.getY() - currentCell.getY();
+        if(dirx != 0)
+            dirx /= Math.abs(dirx);
+        if(diry != 0)
+            diry /= Math.abs(diry);
+        for (int move = 0; move < diceNumber; move++){
+            if(currentCell.adjacentOpen(dirx, diry) != null)
+                currentCell = currentCell.adjacentOpen(dirx, diry);
+            else
+                return false;
+        }
+        return true;
     }
 
     /**
      * @param destination move selected piece from "currentCell" to "destination"
      */
     public void moveTo(Cell destination) {
-
+        this.getCurrentCell().setPiece(null);
+        setCurrentCell(destination);
+        this.getCurrentCell().setPiece(this);
     }
 }
