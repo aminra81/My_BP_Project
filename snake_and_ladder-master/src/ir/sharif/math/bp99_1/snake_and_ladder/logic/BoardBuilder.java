@@ -6,6 +6,7 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Board;
 public class BoardBuilder {
 
     public BoardBuilder(String src) {
+
     }
     /**
      * give you a string in constructor.

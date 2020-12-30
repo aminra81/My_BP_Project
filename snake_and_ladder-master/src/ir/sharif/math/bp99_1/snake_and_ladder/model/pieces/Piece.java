@@ -78,5 +78,7 @@ public class Piece {
         setCurrentCell(destination);
         this.getCurrentCell().setPiece(this);
         setSelected(false);
+        if(destination.getColor() == this.getColor())
+            this.getPlayer().applyOnScore(4);
     }
 }

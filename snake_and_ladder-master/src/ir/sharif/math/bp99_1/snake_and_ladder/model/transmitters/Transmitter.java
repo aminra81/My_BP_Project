@@ -1,6 +1,7 @@
 package ir.sharif.math.bp99_1.snake_and_ladder.model.transmitters;
 
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
+import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.Piece;
 
 public class Transmitter {
@@ -24,9 +25,11 @@ public class Transmitter {
      * transmit piece to lastCell
      */
     public void transmit(Piece piece) {
-        if(getLastCell().canEnter(piece) == false || !piece.getCurrentCell().equals(firstCell))
+        if(!piece.getCurrentCell().equals(getFirstCell()) && !piece.getCurrentCell().equals(getLastCell()))
             return;
-        piece.moveTo(getLastCell());
+        Player curPlayer = piece.getPlayer();
+        curPlayer.applyOnScore(-3);
+        if(piece.getCurrentCell().equals(getFirstCell()) && getLastCell().canEnter(piece))
+            piece.moveTo(getLastCell());
     }
-
 }
