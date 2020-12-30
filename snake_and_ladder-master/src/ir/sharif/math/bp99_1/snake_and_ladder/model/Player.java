@@ -154,6 +154,8 @@ public class Player {
         thisPiece.setSelected(false);
         setMoveLeft(0);
         setSelectedPiece(null);
+        setReady(false);
+        setDicePlayedThisTurn(false);
     }
 
 
