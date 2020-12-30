@@ -67,7 +67,7 @@ public class Piece {
             else
                 return false;
         }
-        return true;
+        return currentCell.canEnter(this);
     }
 
     /**
