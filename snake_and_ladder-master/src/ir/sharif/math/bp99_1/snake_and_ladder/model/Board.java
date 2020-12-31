@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class Board {
-    private final List<Cell> cells;
-    private final List<Transmitter> transmitters;
-    private final List<Wall> walls;
-    private final Map<Cell, Integer> startingCells;
+    private List<Cell> cells;
+    private List<Transmitter> transmitters;
+    private List<Wall> walls;
+    private Map<Cell, Integer> startingCells;
 
     public Board() {
         cells = new LinkedList<>();
@@ -24,6 +24,14 @@ public class Board {
         return cells;
     }
 
+    public void setCells (List<Cell> cells) {
+        this.cells = cells;
+    }
+
+    public void setWalls(List<Wall> walls) {
+        this.walls = walls;
+    }
+
     public List<Wall> getWalls() {
         return walls;
     }
@@ -32,8 +40,16 @@ public class Board {
         return startingCells;
     }
 
+    public void setStartingCells(Map<Cell, Integer> startingCells) {
+        this.startingCells = startingCells;
+    }
+
     public List<Transmitter> getTransmitters() {
         return transmitters;
+    }
+
+    public void setTransmitters(List<Transmitter> transmitters) {
+        this.transmitters = transmitters;
     }
 
 
@@ -43,7 +59,7 @@ public class Board {
      */
     public Cell getCell(int x, int y) {
         for (Cell cell : getCells())
-            if(cell.getX() == x && cell.getY() == y)
+            if (cell.getX() == x && cell.getY() == y)
                 return cell;
         return null;
     }

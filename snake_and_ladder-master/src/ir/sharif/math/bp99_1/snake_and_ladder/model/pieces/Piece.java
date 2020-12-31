@@ -80,5 +80,9 @@ public class Piece {
         setSelected(false);
         if(destination.getColor() == this.getColor())
             this.getPlayer().applyOnScore(4);
+        if(destination.getPrize() != null)
+            destination.getPrize().using(this);
+        if(destination.getTransmitter() != null)
+            destination.getTransmitter().transmit(this);
     }
 }

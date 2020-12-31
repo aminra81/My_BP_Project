@@ -36,9 +36,8 @@ public class ModelLoader {
         try {
             Scanner scanner = new Scanner(boardFile);
             // Code Here
-
-
-            return null;
+            BoardBuilder myBoard = new BoardBuilder(scanner);
+            return myBoard.build();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.err.println("could not find board file");

@@ -25,7 +25,7 @@ public class Transmitter {
      * transmit piece to lastCell
      */
     public void transmit(Piece piece) {
-        if(!piece.getCurrentCell().equals(getFirstCell()) && !piece.getCurrentCell().equals(getLastCell()))
+        if(!piece.getCurrentCell().equals(getFirstCell()))
             return;
         Player curPlayer = piece.getPlayer();
         curPlayer.applyOnScore(-3);

@@ -19,8 +19,8 @@ public class Wall {
     @Override
     public String toString() {
         return "Wall{" +
-                "cell1=" + cell1 +
-                ", cell2=" + cell2 +
+                "cell1=" + cell1.getX() + " " + cell1.getY() +
+                ", cell2=" + cell2.getX() + " " + cell2.getY() +
                 '}';
     }
 }

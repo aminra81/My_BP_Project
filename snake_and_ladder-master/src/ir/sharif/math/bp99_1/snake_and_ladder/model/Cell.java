@@ -14,8 +14,8 @@ public class Cell {
     private Transmitter transmitter;
     private Prize prize;
     private Piece piece;
-    private final List<Cell> adjacentOpenCells;
-    private final List<Cell> adjacentCells;
+    private List<Cell> adjacentOpenCells;
+    private List<Cell> adjacentCells;
 
     public Cell(Color color, int x, int y) {
         this.color = color;
@@ -44,8 +44,16 @@ public class Cell {
         return adjacentCells;
     }
 
+    public void setAdjacentCells (List<Cell> adjacentCells) {
+        this.adjacentCells = adjacentCells;
+    }
+
     public List<Cell> getAdjacentOpenCells() {
         return adjacentOpenCells;
+    }
+
+    public void setAdjacentOpenCells (List<Cell> adjacentOpenCells) {
+        this.adjacentOpenCells = adjacentOpenCells;
     }
 
     public Piece getPiece() {

@@ -108,7 +108,8 @@ public class LogicalAgent {
      */
     public void rollDice(int playerNumber) {
 
-
+        //add score (if dice number is 6)
+        //setmoveLeft
         // dont touch this line
         graphicalAgent.update(gameState);
     }
