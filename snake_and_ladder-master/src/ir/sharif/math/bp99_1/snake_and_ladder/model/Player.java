@@ -151,7 +151,8 @@ public class Player {
     public void endTurn() {
         //Deselect this player's piece.
         Piece thisPiece = getSelectedPiece();
-        thisPiece.setSelected(false);
+        if(thisPiece != null)
+            thisPiece.setSelected(false);
         setMoveLeft(0);
         setSelectedPiece(null);
         setDicePlayedThisTurn(false);

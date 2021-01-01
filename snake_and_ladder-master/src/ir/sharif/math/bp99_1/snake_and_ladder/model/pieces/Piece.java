@@ -57,6 +57,10 @@ public class Piece {
         Cell currentCell = this.getCurrentCell();
         int dirx = destination.getX() - currentCell.getX();
         int diry = destination.getY() - currentCell.getY();
+        if(dirx != 0 && diry != 0)
+            return false;
+        if(Math.abs(dirx) + Math.abs(diry) != diceNumber)
+            return false;
         if(dirx != 0)
             dirx /= Math.abs(dirx);
         if(diry != 0)
@@ -78,7 +82,7 @@ public class Piece {
         setCurrentCell(destination);
         this.getCurrentCell().setPiece(this);
         setSelected(false);
-        if(destination.getColor() == this.getColor())
+        if(destination.getColor().equals(this.getColor()))
             this.getPlayer().applyOnScore(4);
         if(destination.getPrize() != null)
             destination.getPrize().using(this);

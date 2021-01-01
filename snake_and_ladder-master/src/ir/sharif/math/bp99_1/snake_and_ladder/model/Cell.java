@@ -86,7 +86,7 @@ public class Cell {
     public boolean canEnter(Piece piece) {
         if(getColor().equals(Color.BLACK))
             return false;
-        if(!getPiece().equals(null))
+        if(getPiece() != null)
             return false;
         if(getColor().equals(Color.WHITE) || getColor().equals(piece.getColor()))
             return true;

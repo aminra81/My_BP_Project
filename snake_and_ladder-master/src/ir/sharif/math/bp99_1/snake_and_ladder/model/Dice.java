@@ -31,7 +31,7 @@ public class Dice {
         int curRandomDice = randomDiceGenerator.nextInt(sumOfChances);
         int curSum = 0;
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++){
-            curSum += chance[curSum];
+            curSum += chance[diceNumber];
             if(curRandomDice < curSum)
                 return diceNumber;
         }
