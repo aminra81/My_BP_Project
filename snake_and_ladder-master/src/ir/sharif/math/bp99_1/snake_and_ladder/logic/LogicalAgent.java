@@ -142,18 +142,20 @@ public class LogicalAgent {
      * and update *****************
      */
     public void rollDice(int playerNumber) {
-        if(gameState.getCurrentPlayer().getPlayerNumber() != playerNumber)
+        if (gameState.getCurrentPlayer().getPlayerNumber() != playerNumber)
             return;
         Player curPlayer = gameState.getPlayer(playerNumber);
-        if(curPlayer.isDicePlayedThisTurn())
+        if (curPlayer.isDicePlayedThisTurn())
             return;
         int diceNum = curPlayer.getDice().roll();
         curPlayer.setDicePlayedThisTurn(true);
         curPlayer.setMoveLeft(diceNum);
-        if(diceNum == 6)
+        if (diceNum == 6)
             curPlayer.applyOnScore(4);
-        if(!curPlayer.hasMove(gameState.getBoard(), diceNum))
+        if (!curPlayer.hasMove(gameState.getBoard(), diceNum)) {
+            curPlayer.applyOnScore(-3);
             gameState.nextTurn();
+        }
         graphicalAgent.update(gameState);
         checkForEndGame();
     }
