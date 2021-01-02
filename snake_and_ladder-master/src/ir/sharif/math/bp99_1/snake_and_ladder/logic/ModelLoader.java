@@ -5,6 +5,7 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
 import ir.sharif.math.bp99_1.snake_and_ladder.util.Config;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class ModelLoader {
@@ -19,9 +20,8 @@ public class ModelLoader {
         playersDirectory = Config.getConfig("mainConfig").getProperty(File.class, "playersDirectory");
         archiveFile = Config.getConfig("mainConfig").getProperty(File.class, "archive");
         if (!playersDirectory.exists()) playersDirectory.mkdirs();
+        lastID = new File(String.valueOf(playersDirectory)).list().length;
     }
-
-
     /**
      * read file "boardFile" and create a Board
      * <p>
