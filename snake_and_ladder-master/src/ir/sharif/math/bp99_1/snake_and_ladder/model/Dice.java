@@ -44,6 +44,8 @@ public class Dice {
      */
     public void addChance(int number, int chance) {
         this.chance[number] += chance;
+        if(this.chance[number] < 0)
+            this.chance[number] = 0;
     }
 
 
