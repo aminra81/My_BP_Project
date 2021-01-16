@@ -14,9 +14,16 @@ public class Dice {
      */
     static final int diceSize = 6;
     int chance[] = new int[diceSize + 1];
+    private int lastNumber;
     public Dice() {
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++)
             chance[diceNumber] = 1;
+        lastNumber = -1;
+    }
+    public void reset() {
+        for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++)
+            chance[diceNumber] = 1;
+        lastNumber = -1;
     }
     /**
      * create an algorithm generate a random number(between 1 to 6) according to the
@@ -24,18 +31,32 @@ public class Dice {
      * return the generated number
      */
     public int roll() {
+        //generating random number
         int sumOfChances = 0;
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++)
             sumOfChances += chance[diceNumber];
         Random randomDiceGenerator = new Random();
         int curRandomDice = randomDiceGenerator.nextInt(sumOfChances);
+
+        //finding the diceNumber
         int curSum = 0;
+        int Answer = 0;
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++){
             curSum += chance[diceNumber];
-            if(curRandomDice < curSum)
-                return diceNumber;
+            if(curRandomDice < curSum && Answer == 0)
+                Answer = diceNumber;
         }
-        return diceSize;
+        if(Answer == 0)
+            Answer = diceSize;
+
+        //consecutive equal dice numbers.
+        if(lastNumber == Answer) {
+            addChance(Answer, 1);
+            lastNumber = -1;
+        }
+        else
+            lastNumber = Answer;
+        return Answer;
     }
     /**
      * give a dice number and a chance, you should UPDATE chance
@@ -44,8 +65,14 @@ public class Dice {
      */
     public void addChance(int number, int chance) {
         this.chance[number] += chance;
+
+        //chances must be non negative.
         if(this.chance[number] < 0)
             this.chance[number] = 0;
+
+        //chances must be at most 8.
+        if(this.chance[number] > 8)
+            this.chance[number] = 8;
     }
 
 

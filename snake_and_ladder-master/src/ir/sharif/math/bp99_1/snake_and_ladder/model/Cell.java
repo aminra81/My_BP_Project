@@ -9,13 +9,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class Cell {
-    private final Color color;
+    public static List<Cell> AllCells = new ArrayList<>();
+    private Color color;
     private final int x, y;
     private Transmitter transmitter;
     private Prize prize;
     private Piece piece;
     private List<Cell> adjacentOpenCells;
     private List<Cell> adjacentCells;
+    private List<Cell> diagonalAdjacentCells;
 
     public Cell(Color color, int x, int y) {
         this.color = color;
@@ -26,6 +28,8 @@ public class Cell {
         this.piece = null;
         this.adjacentOpenCells = new ArrayList<>();
         this.adjacentCells = new ArrayList<>();
+        this.diagonalAdjacentCells = new ArrayList<>();
+        AllCells.add(this);
     }
 
     public int getX() {
@@ -39,6 +43,8 @@ public class Cell {
     public Color getColor() {
         return color;
     }
+
+    public void setColor(Color color) {this.color = color;}
 
     public List<Cell> getAdjacentCells() {
         return adjacentCells;
@@ -54,6 +60,14 @@ public class Cell {
 
     public void setAdjacentOpenCells (List<Cell> adjacentOpenCells) {
         this.adjacentOpenCells = adjacentOpenCells;
+    }
+
+    public List<Cell> getDiagonalAdjacentCells() {
+        return diagonalAdjacentCells;
+    }
+
+    public void setDiagonalAdjacentCells (List<Cell> diagonalAdjacentCells) {
+        this.diagonalAdjacentCells = diagonalAdjacentCells;
     }
 
     public Piece getPiece() {
@@ -100,6 +114,12 @@ public class Cell {
         return null;
     }
 
+    public static Cell CellFinder(int x, int y) {
+        for (Cell cell : AllCells)
+            if(cell.getX() == x && cell.getY() == y)
+                return cell;
+        return null;
+    }
 
     /**
      * DO NOT CHANGE FOLLOWING METHODS.

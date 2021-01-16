@@ -64,6 +64,30 @@ public class Snake extends GraphicalModel {
         private double waveHeight = waves / 200;
         private Color color;
 
+        public SnakeBuilder setColor(ir.sharif.math.bp99_1.snake_and_ladder.model.Color color) {
+            switch (color) {
+                case RED:
+                    this.color = Color.RED;
+                    break;
+                case BLUE:
+                    this.color = Color.BLUE;
+                    break;
+                case BLACK:
+                    this.color = Color.DARK_GRAY;
+                    break;
+                case GREEN:
+                    this.color = Color.GREEN;
+                    break;
+                case WHITE:
+                    this.color = Color.PINK;
+                    break;
+                case YELLOW:
+                    this.color = Color.YELLOW;
+                    break;
+            }
+            return this;
+        }
+
         public SnakeBuilder setStart(double startX, double startY) {
             this.start = new Point2D.Double(startX, startY);
             return this;
@@ -118,22 +142,39 @@ public class Snake extends GraphicalModel {
             if (start == null || end == null)
                 throw new NullPointerException("specify start and end of snake");
             return new Snake(start, end, bodyWidth, waveHeight, tailStart
-                    , headLength, headWidth, eyeRadius, irisRadius, waves, randomColor());
+                    , headLength, headWidth, eyeRadius, irisRadius, waves, color);
         }
-
-
-        public Color randomColor() {
-            Random random = new Random();
-            int r = random.nextInt(255);
-            int g = random.nextInt(255);
-            int b = random.nextInt(255);
-            return new Color(r, g, b);
-        }
-
     }
 
+    public Color randomColor(Color color) {
+        if (color.equals(Color.PINK))
+            return color;
+        if (color.equals(Color.DARK_GRAY))
+            return color;
+        float[] HSB = new float[3];
+        Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), HSB);
+        Random random = new Random();
+        float h = HSB[0] + random.nextFloat() / 20 - 0.025f;
+        if (h < 0) h += 1;
+        float s = random.nextFloat() / 2 + 0.5f;
+        float b = random.nextFloat() / 2 + 0.5f;
+        return Color.getHSBColor(h, s, b);
+    }
+
+    private transient long lastPaint = 0L;
+    private transient Color tempColor;
+
     public void paint(Graphics2D g) {
-        g.setColor(color);
+        long now = System.currentTimeMillis();
+        if (lastPaint == 0L) {
+            lastPaint = now;
+            tempColor = color;
+        }
+        if (now - lastPaint > 400) {
+            this.tempColor = randomColor(color);
+            lastPaint = now;
+        }
+        g.setColor(tempColor);
         g.fill(body);
         g.fill(head);
         g.setColor(Color.WHITE);

@@ -5,7 +5,7 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.Piece;
 
 public class Prize {
-    private final Cell cell;
+    private Cell cell;
     private final int point;
     private final int chance, diceNumber;
 
@@ -25,6 +25,8 @@ public class Prize {
         return cell;
     }
 
+    public void setCell(Cell cell) { this.cell = cell; }
+
     public int getChance() {
         return chance;
     }
@@ -43,6 +45,11 @@ public class Prize {
             return;
         Player curPlayer = piece.getPlayer();
         curPlayer.usePrize(this);
+    }
+
+    public void destroy() {
+        this.getCell().setPrize(null);
+        this.setCell(null);
     }
 
 }

@@ -30,12 +30,12 @@ public class GraphicalAgent {
      */
     public void update(GameState gameState) {
         synchronized (paintLock) {
-            new GraphicalGameStateBuilder(gameState, this).update(this.graphicalGameState);
+            new GraphicalGameStateBuilder(gameState).update(this.graphicalGameState);
         }
     }
 
     public void initialize(GameState gameState) {
-        this.graphicalGameState = new GraphicalGameStateBuilder(gameState, this).build();
+        this.graphicalGameState = new GraphicalGameStateBuilder(gameState).build();
         this.frame = initializePanels();
     }
 
@@ -70,6 +70,11 @@ public class GraphicalAgent {
          *
          *
          */
+    }
+
+    public void clickRightOnCell(int x, int y) {
+        String details = logicalAgent.getCellDetails(x, y);
+        JOptionPane.showMessageDialog(frame, details, "cell details", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void changeColorRequest(int player, int piece, String color) {

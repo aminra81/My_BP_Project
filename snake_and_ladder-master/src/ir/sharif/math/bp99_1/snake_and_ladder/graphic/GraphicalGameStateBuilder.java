@@ -13,12 +13,9 @@ import java.util.List;
 
 public class GraphicalGameStateBuilder {
     private final GameState logicalGameState;
-    private final GraphicalAgent agent;
-    private static Loop loop;
 
 
-    public GraphicalGameStateBuilder(GameState gameState, GraphicalAgent agent) {
-        this.agent = agent;
+    public GraphicalGameStateBuilder(GameState gameState) {
         this.logicalGameState = gameState;
     }
 
@@ -55,19 +52,15 @@ public class GraphicalGameStateBuilder {
     private GraphicalBoard createBoard(Board board) {
         GraphicalBoard graphicalBoard = new GraphicalBoard(convertCells(board.getCells()), convertTransmitter(board.getTransmitters())
                 , convertWalls(board.getWalls()));
-        if (loop != null) loop.stop();
         List<Transmitter> transmitters = new LinkedList<>(board.getTransmitters());
-        loop = new Loop(2, () -> {
-            synchronized (agent.getPaintLock()) {
-                setList(graphicalBoard.getGraphicalTransmitters(), convertTransmitter(transmitters));
-            }
-        });
-        loop.start();
+        setList(graphicalBoard.getGraphicalTransmitters(), convertTransmitter(transmitters));
         return graphicalBoard;
     }
 
     private void updateBoard(Board board, GraphicalBoard graphicalBoard) {
         setList(graphicalBoard.getGraphicalCells(), convertCells(board.getCells()));
+        setList(graphicalBoard.getGraphicalTransmitters(), convertTransmitter(board.getTransmitters()));
+        setList(graphicalBoard.getGraphicalWalls(), convertWalls(board.getWalls()));
     }
 
 
@@ -113,7 +106,8 @@ public class GraphicalGameStateBuilder {
                 int x1 = (transmitter.getFirstCell().getY() - 1) * GraphicalCell.CELL_SIZE + GraphicalCell.CELL_SIZE / 2;
                 int y2 = (transmitter.getLastCell().getX() - 1) * GraphicalCell.CELL_SIZE + GraphicalCell.CELL_SIZE / 2;
                 int x2 = (transmitter.getLastCell().getY() - 1) * GraphicalCell.CELL_SIZE + GraphicalCell.CELL_SIZE / 2;
-                graphicalTransmitters.add(new GraphicalTransmitter(new Snake.SnakeBuilder().setStart(x1, y1).setEnd(x2, y2).build()));
+                graphicalTransmitters.add(new GraphicalTransmitter(new Snake.SnakeBuilder().setStart(x1, y1).setEnd(x2, y2)
+                        .setColor(transmitter.getColor()).build()));
             }
         }
         return graphicalTransmitters;

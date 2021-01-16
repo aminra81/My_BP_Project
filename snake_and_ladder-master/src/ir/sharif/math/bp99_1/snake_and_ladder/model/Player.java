@@ -1,6 +1,6 @@
 package ir.sharif.math.bp99_1.snake_and_ladder.model;
 
-import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.Piece;
+import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.*;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.prizes.Prize;
 
 import java.util.ArrayList;
@@ -27,12 +27,40 @@ public class Player {
         this.playerNumber = playerNumber;
         this.dice = new Dice();
         this.pieces = new ArrayList<>();
-        this.pieces.add(new Piece(this, Color.RED));
-        this.pieces.add(new Piece(this, Color.BLUE));
-        this.pieces.add(new Piece(this, Color.GREEN));
-        this.pieces.add(new Piece(this, Color.YELLOW));
+        this.pieces.add(new Bomber(this, Color.RED));
+        this.pieces.add(new Sniper(this, Color.BLUE));
+        this.pieces.add(new Healer(this, Color.GREEN));
+        this.pieces.add(new Thief(this, Color.YELLOW));
         this.moveLeft = 0;
         this.selectedPiece = null;
+    }
+
+    public Piece getBomber() {
+        for (Piece piece : pieces)
+            if(piece.getColor() == Color.RED)
+                return piece;
+        return null;
+    }
+
+    public Piece getHealer() {
+        for (Piece piece : pieces)
+            if(piece.getColor() == Color.GREEN)
+                return piece;
+        return null;
+    }
+
+    public Piece getThief() {
+        for (Piece piece : pieces)
+            if(piece.getColor() == Color.YELLOW)
+                return piece;
+        return null;
+    }
+
+    public Piece getSniper() {
+        for (Piece piece : pieces)
+            if(piece.getColor() == Color.BLUE)
+                return piece;
+        return null;
     }
 
     public int getId() {
@@ -131,15 +159,9 @@ public class Player {
      * you can use method "isValidMove" in class "Piece"(not necessary, but recommended)
      */
     public boolean hasMove(Board board, int diceNumber) {
-
-        int X[] = {0, 0, diceNumber, -diceNumber};
-        int Y[] = {diceNumber, -diceNumber, 0, 0};
         for (Piece piece : getPieces())
-            for (int dir = 0; dir < 4; dir++) {
-                Cell destination = board.getCell(piece.getCurrentCell().getX() + X[dir], piece.getCurrentCell().getY() + Y[dir]);
-                if(destination != null && piece.isValidMove(destination, diceNumber))
-                    return true;
-            }
+            if(piece.hasMove(diceNumber))
+                return true;
         return false;
     }
 

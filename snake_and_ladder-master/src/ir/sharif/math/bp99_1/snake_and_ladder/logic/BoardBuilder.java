@@ -5,17 +5,17 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Color;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Wall;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.prizes.Prize;
-import ir.sharif.math.bp99_1.snake_and_ladder.model.transmitters.Transmitter;
+import ir.sharif.math.bp99_1.snake_and_ladder.model.transmitters.*;
 
 import java.util.*;
 
 
 public class BoardBuilder {
     Scanner src;
-    private Board finalBoard;
+    private final Board finalBoard;
     private int sizeX;
     private int sizeY;
-    private Cell cells[][];
+    private Cell[][] cells;
 
     public BoardBuilder(Scanner src) {
         this.src = src;
@@ -88,7 +88,25 @@ public class BoardBuilder {
             int y1 = src.nextInt();
             int x2 = src.nextInt();
             int y2 = src.nextInt();
-            Transmitter curTransmitter = new Transmitter(cells[x1][y1], cells[x2][y2]);
+            String type = src.next();
+            Transmitter curTransmitter;
+            switch(type) {
+                case "U":
+                    curTransmitter = new EarthWorm(cells[x1][y1], cells[x2][y2]);
+                    break;
+                case "O":
+                    curTransmitter = new NormalSnake(cells[x1][y1], cells[x2][y2]);
+                    break;
+                case "M":
+                    curTransmitter = new MagicSnake(cells[x1][y1], cells[x2][y2]);
+                    break;
+                case "P":
+                    curTransmitter = new KillerSnake(cells[x1][y1], cells[x2][y2]);
+                    break;
+                default:
+                    curTransmitter = new Transmitter(cells[x1][y1], cells[x2][y2]);
+                    break;
+            }
             transmitters.add(curTransmitter);
             cells[x1][y1].setTransmitter(curTransmitter);
         }
@@ -120,8 +138,8 @@ public class BoardBuilder {
     }
     public void completeCells() {
         //first let's create adjacent list for each cell.
-        int dirx[] = {-1, 1, 0, 0};
-        int diry[] = {0, 0, 1, -1};
+        int[] dirx = {-1, 1, 0, 0};
+        int[] diry = {0, 0, 1, -1};
         for (int x = 1; x <= sizeX; x++)
             for (int y = 1; y <= sizeY; y++) {
                 List<Cell> adjacentCells = new ArrayList<>();
@@ -142,11 +160,23 @@ public class BoardBuilder {
                         adjacentOpenCells.add(adjacentCell);
                 cells[x][y].setAdjacentOpenCells(adjacentOpenCells);
             }
+        //and the last one: diagonalAdjacentCells.
+        for (int x = 1; x <= sizeX; x++)
+            for (int y = 1; y <= sizeY; y++) {
+                List<Cell> diagonalAdjacentCells = new ArrayList<>();
+                for (int deltax = -1; deltax <= 1; deltax++)
+                    for (int deltay = -1; deltay <= 1; deltay++) {
+                        int newX = x + deltax;
+                        int newY = y + deltay;
+                        if(1 <= newX && newX <= sizeX && 1 <= newY && newY <= sizeY)
+                            diagonalAdjacentCells.add(cells[newX][newY]);
+                    }
+                cells[x][y].setDiagonalAdjacentCells(diagonalAdjacentCells);
+            }
         //finalizing Board.
         List<Cell> finalCells = new LinkedList<>();
         for (int x = 1; x <= sizeX; x++)
-            for (int y = 1; y <= sizeY; y++)
-                finalCells.add(cells[x][y]);
+            finalCells.addAll(Arrays.asList(cells[x]).subList(1, sizeY + 1));
         finalBoard.setCells(finalCells);
     }
     public Board build() {

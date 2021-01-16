@@ -59,7 +59,7 @@ public class LogicalAgent {
         for (int playerNumber = 1; playerNumber <= 2; playerNumber++) {
             for (Piece piece : gameState.getPlayer(playerNumber).getPieces())
                 for (Cell cell : gameState.getBoard().getStartingCells().keySet())
-                    if(gameState.getBoard().getStartingCells().get(cell) == playerNumber && piece.getColor().equals(cell.getColor())) {
+                    if (gameState.getBoard().getStartingCells().get(cell) == playerNumber && piece.getColor().equals(cell.getColor())) {
                         piece.setCurrentCell(cell);
                         cell.setPiece(piece);
                     }
@@ -67,10 +67,11 @@ public class LogicalAgent {
         }
         gameState.nextTurn();
     }
+
     public void readyPlayer(int playerNumber) {
         Player curPlayer = gameState.getPlayer(playerNumber);
         curPlayer.setReady(!curPlayer.isReady());
-        if(gameState.getPlayer1().isReady() && gameState.getPlayer2().isReady())
+        if (gameState.getPlayer1().isReady() && gameState.getPlayer2().isReady())
             startGame();
         graphicalAgent.update(gameState);
     }
@@ -82,26 +83,23 @@ public class LogicalAgent {
      */
     // ***
     public void selectCell(int x, int y) {
-        if(gameState.isStarted() == false)
+        if (!gameState.isStarted())
             return;
         Cell curCell = gameState.getBoard().getCell(x, y);
         Player curPlayer = gameState.getCurrentPlayer();
-        if(curPlayer.isDicePlayedThisTurn() == false)
+        if (!curPlayer.isDicePlayedThisTurn())
             return;
-        if(curCell.getPiece() != null) {
-            if(!curCell.getPiece().getPlayer().equals(curPlayer))
+
+        if (curPlayer.getSelectedPiece() == null) {
+            if (curCell.getPiece() == null || !curCell.getPiece().getPlayer().equals(curPlayer))
                 return;
-            if(curPlayer.getSelectedPiece() != null)
-                curPlayer.getSelectedPiece().setSelected(false);
+            curPlayer.setSelectedPiece(curCell.getPiece());
             curCell.getPiece().setSelected(true);
             curPlayer.setSelectedPiece(curCell.getPiece());
-        }
-        else {
-            if(curPlayer.getSelectedPiece() == null)
+        } else {
+            boolean isValid = curPlayer.getSelectedPiece().thisTurnMove(curCell);
+            if(!isValid)
                 return;
-            if(!curPlayer.getSelectedPiece().isValidMove(curCell, curPlayer.getMoveLeft()))
-                return;
-            curPlayer.getSelectedPiece().moveTo(curCell);
             gameState.nextTurn();
         }
         graphicalAgent.update(gameState);
@@ -115,7 +113,7 @@ public class LogicalAgent {
      * If the game is a draw set winner variable to 3
      */
     private void checkForEndGame() {
-        if (gameState.getTurn() > 30) {
+        if (gameState.getTurn() > 40) {
             int winner;
             int firstPlayerScore = gameState.getPlayer1().getScore();
             int secondPlayerScore = gameState.getPlayer2().getScore();
@@ -148,6 +146,18 @@ public class LogicalAgent {
         if (curPlayer.isDicePlayedThisTurn())
             return;
         int diceNum = curPlayer.getDice().roll();
+
+        //Option Activation
+        if(diceNum == 1)
+            curPlayer.getHealer().setOption(true);
+        if(diceNum == 3)
+            curPlayer.getBomber().setOption(true);
+        if(diceNum == 5)
+            curPlayer.getSniper().setOption(true);
+
+
+        if (diceNum == 2)
+            curPlayer.getDice().reset();
         curPlayer.setDicePlayedThisTurn(true);
         curPlayer.setMoveLeft(diceNum);
         if (diceNum == 6)
@@ -159,13 +169,14 @@ public class LogicalAgent {
         graphicalAgent.update(gameState);
         checkForEndGame();
     }
-
-
-    /**
-     * Give a number from graphic,( which is the playerNumber of a player
-     * who right clicks "dice button".) you should return the dice detail of that player.
-     * you can use method "getDetails" in class "Dice"(not necessary, but recommended )
-     */
+    public String getCellDetails(int x, int y) {
+        //cell coordinates.
+        Cell curCell = Cell.CellFinder(x, y);
+        if(curCell.getPiece() == null)
+            return "empty.";
+        else
+            return curCell.getPiece().getDetails();
+    }
     public String getDiceDetail(int playerNumber) {
         Player curPlayer = gameState.getPlayer(playerNumber);
         return curPlayer.getDice().getDetails();
