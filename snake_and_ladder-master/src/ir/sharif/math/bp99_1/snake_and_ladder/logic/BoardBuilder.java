@@ -49,15 +49,14 @@ public class BoardBuilder {
     }
 
     private void setStartCells() {
-        Map<Cell, Integer> startingCells = new HashMap<>();
+        List<Cell> startingCells = new ArrayList<>();
         src.next();
         int sizeOfStartingCells = src.nextInt();
         src.next();
         for (int numOfStartingCells = 0; numOfStartingCells < sizeOfStartingCells; numOfStartingCells++) {
             int x = src.nextInt();
             int y = src.nextInt();
-            int playerNumber = src.nextInt();
-            startingCells.put(cells[x][y], playerNumber);
+            startingCells.add(cells[x][y]);
         }
         finalBoard.setStartingCells(startingCells);
     }

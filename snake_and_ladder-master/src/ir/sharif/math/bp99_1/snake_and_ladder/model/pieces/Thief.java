@@ -12,6 +12,19 @@ public class Thief extends Piece {
         super(player, color);
     }
 
+    public Thief(Player player, Color color, boolean isAlive, boolean hasOption, Prize hisPrize) {
+        super(player, color, isAlive, hasOption);
+        this.hisPrize = hisPrize;
+    }
+
+    public Thief(Player player, Color color, boolean isAlive, boolean hasOption) {
+        super(player, color, isAlive, hasOption);
+    }
+
+    public Prize getHisPrize() {
+        return hisPrize;
+    }
+
     public void moveTo(Cell destination) {
         if (destination.getPiece() != null)
             return;
@@ -44,6 +57,8 @@ public class Thief extends Piece {
     }
 
     public boolean thisTurnMove(Cell curCell) {
+        if(!isAlive())
+            return false;
         if (curCell.getPiece() == null)
             return super.thisTurnMove(curCell);
 

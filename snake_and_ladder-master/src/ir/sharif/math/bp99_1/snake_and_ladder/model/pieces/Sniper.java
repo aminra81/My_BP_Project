@@ -9,11 +9,19 @@ public class Sniper extends Piece{
         super(player, color);
     }
 
+    public Sniper(Player player, Color color, boolean isAlive, boolean hasOption) {
+        super(player, color, isAlive, hasOption);
+    }
+
     @Override
     public boolean thisTurnMove(Cell curCell) {
+        if(!isAlive())
+            return false;
         Player curPlayer = this.getPlayer();
         if(curCell.getPiece() == null)
             return super.thisTurnMove(curCell);
+        if(!hasOption())
+            return false;
         if(curCell.getPiece().getPlayer().equals(curPlayer))
             return false;
         int dirx = curCell.getX() - this.getCurrentCell().getX();

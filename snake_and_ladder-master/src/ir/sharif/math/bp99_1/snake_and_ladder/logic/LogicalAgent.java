@@ -6,7 +6,9 @@ import ir.sharif.math.bp99_1.snake_and_ladder.model.Board;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.GameState;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
-import ir.sharif.math.bp99_1.snake_and_ladder.model.pieces.Piece;
+import ir.sharif.math.bp99_1.snake_and_ladder.util.Config;
+
+import java.io.File;
 
 /**
  * This class is an interface between logic and graphic.
@@ -32,12 +34,20 @@ public class LogicalAgent {
      * NO CHANGES NEEDED.
      */
     private GameState loadGameState() {
-        Board board = modelLoader.loadBord();
+        File gameStatesDirectory = Config.getConfig("mainConfig").getProperty(File.class, "gameStatesDirectory");
+        Board board = modelLoader.loadBoard();
         Player player1 = modelLoader.loadPlayer(graphicalAgent.getPlayerNames(1), 1);
         Player player2;
         do {
             player2 = modelLoader.loadPlayer(graphicalAgent.getPlayerNames(2), 2);
         } while (player1.equals(player2));
+        String name = player1.getName() + "_" + player2.getName();
+        File tempFile = new File(gameStatesDirectory, name);
+        if (tempFile.exists()) {
+            board = modelLoader.loadBoard(new File(tempFile, "1.board"));
+            player1 = modelLoader.loadPlayer(new File(tempFile, "player1.txt"));
+            player2 = modelLoader.loadPlayer(new File(tempFile, "player2.txt"));
+        }
         player1.setRival(player2);
         player2.setRival(player1);
         return new GameState(board, player1, player2);
@@ -49,23 +59,47 @@ public class LogicalAgent {
     public void initialize() {
         graphicalAgent.initialize(gameState);
     }
-
     /**
      * Give a number from graphic,( which is the playerNumber of a player
      * who clicks "ReadyButton".) you should somehow change that player state.
      * if both players are ready. then start the game.
      */
     private void startGame() {
-        for (int playerNumber = 1; playerNumber <= 2; playerNumber++) {
-            for (Piece piece : gameState.getPlayer(playerNumber).getPieces())
-                for (Cell cell : gameState.getBoard().getStartingCells().keySet())
-                    if (gameState.getBoard().getStartingCells().get(cell) == playerNumber && piece.getColor().equals(cell.getColor())) {
-                        piece.setCurrentCell(cell);
-                        cell.setPiece(piece);
-                    }
-
+        File gameStatesDirectory = Config.getConfig("mainConfig").getProperty(File.class, "gameStatesDirectory");
+        String name = gameState.getPlayer1().getName() + "_" + gameState.getPlayer2().getName();
+        File tempFile = new File(gameStatesDirectory, name);
+        if(tempFile.exists()) {
+            int turn = modelLoader.loadTurn(new File(tempFile, "turn.txt"));
+            gameState.setTurn(turn);
         }
-        gameState.nextTurn();
+        //player One pieces.
+        gameState.getPlayer1().getBomber().setCurrentCell(gameState.getBoard().getStartingCells().get(0));
+        gameState.getBoard().getStartingCells().get(0).setPiece(gameState.getPlayer1().getBomber());
+
+        gameState.getPlayer1().getHealer().setCurrentCell(gameState.getBoard().getStartingCells().get(1));
+        gameState.getBoard().getStartingCells().get(1).setPiece(gameState.getPlayer1().getHealer());
+
+        gameState.getPlayer1().getThief().setCurrentCell(gameState.getBoard().getStartingCells().get(2));
+        gameState.getBoard().getStartingCells().get(2).setPiece(gameState.getPlayer1().getThief());
+
+        gameState.getPlayer1().getSniper().setCurrentCell(gameState.getBoard().getStartingCells().get(3));
+        gameState.getBoard().getStartingCells().get(3).setPiece(gameState.getPlayer1().getSniper());
+
+        //player Two pieces.
+        gameState.getPlayer2().getBomber().setCurrentCell(gameState.getBoard().getStartingCells().get(7));
+        gameState.getBoard().getStartingCells().get(7).setPiece(gameState.getPlayer2().getBomber());
+
+        gameState.getPlayer2().getHealer().setCurrentCell(gameState.getBoard().getStartingCells().get(6));
+        gameState.getBoard().getStartingCells().get(6).setPiece(gameState.getPlayer2().getHealer());
+
+        gameState.getPlayer2().getThief().setCurrentCell(gameState.getBoard().getStartingCells().get(5));
+        gameState.getBoard().getStartingCells().get(5).setPiece(gameState.getPlayer2().getThief());
+
+        gameState.getPlayer2().getSniper().setCurrentCell(gameState.getBoard().getStartingCells().get(4));
+        gameState.getBoard().getStartingCells().get(4).setPiece(gameState.getPlayer2().getSniper());
+
+        if(gameState.getTurn() == 0)
+            gameState.nextTurn();
     }
 
     public void readyPlayer(int playerNumber) {
@@ -98,7 +132,7 @@ public class LogicalAgent {
             curPlayer.setSelectedPiece(curCell.getPiece());
         } else {
             boolean isValid = curPlayer.getSelectedPiece().thisTurnMove(curCell);
-            if(!isValid)
+            if (!isValid)
                 return;
             gameState.nextTurn();
         }
@@ -148,11 +182,11 @@ public class LogicalAgent {
         int diceNum = curPlayer.getDice().roll();
 
         //Option Activation
-        if(diceNum == 1)
+        if (diceNum == 1)
             curPlayer.getHealer().setOption(true);
-        if(diceNum == 3)
+        if (diceNum == 3)
             curPlayer.getBomber().setOption(true);
-        if(diceNum == 5)
+        if (diceNum == 5)
             curPlayer.getSniper().setOption(true);
 
 
@@ -169,14 +203,17 @@ public class LogicalAgent {
         graphicalAgent.update(gameState);
         checkForEndGame();
     }
+
     public String getCellDetails(int x, int y) {
         //cell coordinates.
         Cell curCell = Cell.CellFinder(x, y);
-        if(curCell.getPiece() == null)
+        assert curCell != null;
+        if (curCell.getPiece() == null)
             return "empty.";
         else
             return curCell.getPiece().getDetails();
     }
+
     public String getDiceDetail(int playerNumber) {
         Player curPlayer = gameState.getPlayer(playerNumber);
         return curPlayer.getDice().getDetails();

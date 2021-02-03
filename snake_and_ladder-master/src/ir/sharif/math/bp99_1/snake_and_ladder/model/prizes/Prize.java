@@ -17,6 +17,13 @@ public class Prize {
         this.diceNumber = diceNumber;
     }
 
+    public Prize(int point, int chance, int diceNumber) {
+        this.cell = null;
+        this.point = point;
+        this.chance = chance;
+        this.diceNumber = diceNumber;
+    }
+
     public int getPoint() {
         return point;
     }

@@ -22,4 +22,8 @@ public class MagicSnake extends Transmitter {
     public Color getColor() {
         return color;
     }
+
+    public String getType() {
+        return "M";
+    }
 }

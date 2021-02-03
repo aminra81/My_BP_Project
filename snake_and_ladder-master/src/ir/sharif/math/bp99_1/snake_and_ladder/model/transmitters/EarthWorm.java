@@ -30,4 +30,8 @@ public class EarthWorm extends Transmitter{
     public Color getColor() {
         return color;
     }
+
+    public String getType() {
+        return "U";
+    }
 }

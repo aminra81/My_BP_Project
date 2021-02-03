@@ -3,6 +3,7 @@ package ir.sharif.math.bp99_1.snake_and_ladder.model.pieces;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Cell;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Color;
 import ir.sharif.math.bp99_1.snake_and_ladder.model.Player;
+import ir.sharif.math.bp99_1.snake_and_ladder.model.prizes.Prize;
 
 
 public class Piece implements TurnMove{
@@ -17,6 +18,13 @@ public class Piece implements TurnMove{
         this.color = color;
         this.player = player;
         isAlive = true;
+    }
+
+    public Piece(Player player, Color color, boolean isAlive, boolean hasOption) {
+        this.color = color;
+        this.player = player;
+        this.isAlive = isAlive;
+        this.hasOption = hasOption;
     }
 
     public Player getPlayer() {
@@ -130,6 +138,10 @@ public class Piece implements TurnMove{
     }
 
     public void getDamagedBySnake() {}
+
+    public Prize getHisPrize() {
+        return null;
+    }
     public String getDetails() {
         return "isAlive: " + isAlive() + "\nhasOption: " + hasOption();
     }

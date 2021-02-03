@@ -21,4 +21,8 @@ public class KillerSnake extends Transmitter {
     public Color getColor() {
         return color;
     }
+
+    public String getType() {
+        return "P";
+    }
 }

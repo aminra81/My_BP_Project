@@ -42,4 +42,8 @@ public class Transmitter implements Transmitting {
     public Color getColor() {
         return color;
     }
+
+    public String getType() {
+        return "";
+    }
 }

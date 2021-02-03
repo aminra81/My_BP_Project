@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Player {
     private final String name;
     private int score;
-    private final List<Piece> pieces;
+    public final List<Piece> pieces;
     private final Dice dice;
     private Player rival;
     private final int id;
@@ -33,6 +33,15 @@ public class Player {
         this.pieces.add(new Thief(this, Color.YELLOW));
         this.moveLeft = 0;
         this.selectedPiece = null;
+    }
+
+    public Player(String name, int score, int id, int playerNumber, Dice dice, List<Piece> pieces) {
+        this.name = name;
+        this.score = score;
+        this.id = id;
+        this.playerNumber = playerNumber;
+        this.dice = dice;
+        this.pieces = pieces;
     }
 
     public Piece getBomber() {
