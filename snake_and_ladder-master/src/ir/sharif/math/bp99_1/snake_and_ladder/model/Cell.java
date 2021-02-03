@@ -102,9 +102,7 @@ public class Cell {
             return false;
         if(getPiece() != null)
             return false;
-        if(getColor().equals(Color.WHITE) || getColor().equals(piece.getColor()))
-            return true;
-        return false;
+        return getColor().equals(Color.WHITE) || getColor().equals(piece.getColor()) || piece.getColor() == Color.YELLOW;
     }
 
     public Cell adjacentOpen(int dirx, int diry){

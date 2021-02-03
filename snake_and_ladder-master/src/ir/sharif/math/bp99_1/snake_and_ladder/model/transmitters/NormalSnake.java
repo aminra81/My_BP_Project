@@ -12,7 +12,8 @@ public class NormalSnake extends Transmitter{
     }
 
     public void transmit(Piece piece) {
-        super.transmit(piece);
+        if(this.getLastCell().canEnter(piece))
+            super.transmit(piece);
     }
 
     public Color getColor() {

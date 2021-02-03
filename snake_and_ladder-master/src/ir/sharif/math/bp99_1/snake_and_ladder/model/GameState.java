@@ -44,7 +44,7 @@ public class GameState {
      * else return a player who's turn is now.
      */
     public Player getCurrentPlayer() {
-        if(isStarted() == false)
+        if(!isStarted())
             return null;
         if(getTurn() % 2 == 1)
             return getPlayer(1);

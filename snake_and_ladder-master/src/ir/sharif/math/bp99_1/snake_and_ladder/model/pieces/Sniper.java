@@ -11,7 +11,7 @@ public class Sniper extends Piece{
 
     @Override
     public boolean thisTurnMove(Cell curCell) {
-        Player curPlayer = getPlayer();
+        Player curPlayer = this.getPlayer();
         if(curCell.getPiece() == null)
             return super.thisTurnMove(curCell);
         if(curCell.getPiece().getPlayer().equals(curPlayer))

@@ -15,7 +15,8 @@ public class MagicSnake extends Transmitter {
     public void transmit(Piece piece) {
         piece.getPlayer().applyOnScore(6);
         piece.setOption(true);
-        super.transmit(piece);
+        if(this.getLastCell().canEnter(piece))
+            super.transmit(piece);
     }
 
     public Color getColor() {
