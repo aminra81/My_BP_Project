@@ -9,6 +9,10 @@ public class Bomber extends Piece{
         super(player, color);
     }
 
+    public Bomber(Player player, Color color, boolean isAlive, boolean hasOption) {
+        super(player, color, isAlive, hasOption);
+    }
+
     private void Destroy(Cell curCell) {
         for (Cell cell : curCell.getDiagonalAdjacentCells()) {
             if(cell.getPrize() != null)
@@ -20,8 +24,12 @@ public class Bomber extends Piece{
     }
     @Override
     public boolean thisTurnMove(Cell curCell) {
+        if(!isAlive())
+            return false;
         if(curCell.getPiece() == null)
             return super.thisTurnMove(curCell);
+        if(!hasOption())
+            return false;
         if(!curCell.equals(this.getCurrentCell()))
             return false;
         Destroy(curCell);

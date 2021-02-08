@@ -13,13 +13,26 @@ public class Dice {
      * initialize these fields in constructor.
      */
     static final int diceSize = 6;
-    int chance[] = new int[diceSize + 1];
+    int[] chance = new int[diceSize + 1];
     private int lastNumber;
     public Dice() {
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++)
             chance[diceNumber] = 1;
         lastNumber = -1;
     }
+    public Dice(int []chance, int lastNumber) {
+        this.chance = chance;
+        this.lastNumber = lastNumber;
+    }
+
+    public int[] getChances() {
+        return chance;
+    }
+
+    public int getLastNumber() {
+        return lastNumber;
+    }
+
     public void reset() {
         for (int diceNumber = 1; diceNumber <= diceSize; diceNumber++)
             chance[diceNumber] = 1;

@@ -9,6 +9,10 @@ public class Healer extends Piece {
         super(player, color);
     }
 
+    public Healer(Player player, Color color, boolean isAlive, boolean hasOption) {
+        super(player, color, isAlive, hasOption);
+    }
+
     @Override
     public void setAlive(boolean alive) {
         this.isAlive = true;
@@ -19,6 +23,8 @@ public class Healer extends Piece {
         Player curPlayer = getPlayer();
         if (curCell.getPiece() == null)
             return super.thisTurnMove(curCell);
+        if(!hasOption())
+            return false;
         if (!curCell.getPiece().getPlayer().equals(curPlayer))
             return false;
         int dirx = curCell.getX() - this.getCurrentCell().getX();
@@ -26,6 +32,7 @@ public class Healer extends Piece {
         if (dirx != 0 && diry != 0)
             return false;
         if (Math.abs(dirx) + Math.abs(diry) <= curPlayer.getMoveLeft() && !curCell.getPiece().isAlive()) {
+            this.setOption(false);
             curCell.getPiece().setAlive(true);
             return true;
         } else

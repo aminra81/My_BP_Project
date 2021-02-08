@@ -20,14 +20,16 @@ public class EarthWorm extends Transmitter{
         Random randomCoordinateGenerator = new Random();
         int x = randomCoordinateGenerator.nextInt(boardSizeX) + 1;
         int y = randomCoordinateGenerator.nextInt(boardSizeY) + 1;
-        /* TODO: ye if bezan age natoonest vared she. */
         setLastCell(Cell.CellFinder(x, y));
-        if(this.getLastCell().canEnter(piece))
-            super.transmit(piece);
+        super.transmit(piece);
         setLastCell(this.getFirstCell());
     }
 
     public Color getColor() {
         return color;
+    }
+
+    public String getType() {
+        return "U";
     }
 }

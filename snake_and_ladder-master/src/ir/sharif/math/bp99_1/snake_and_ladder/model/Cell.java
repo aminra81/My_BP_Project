@@ -119,6 +119,10 @@ public class Cell {
         return null;
     }
 
+    public static void resetAllCells() {
+        AllCells.clear();
+    }
+
     /**
      * DO NOT CHANGE FOLLOWING METHODS.
      */
