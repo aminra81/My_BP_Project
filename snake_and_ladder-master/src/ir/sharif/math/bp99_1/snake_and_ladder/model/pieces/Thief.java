@@ -45,7 +45,7 @@ public class Thief extends Piece {
         int dirx = destination.getX() - currentCell.getX();
         int diry = destination.getY() - currentCell.getY();
         int distance = Math.abs(dirx) + Math.abs(diry);
-        return (dirx == 0 || diry == 0) && (destination.getPiece() == null) && (distance == diceNumber);
+        return (dirx == 0 || diry == 0) && (destination.getPiece() == null) && (distance == diceNumber) && destination.getColor() != Color.BLACK;
     }
 
     public void setOption(boolean option) {

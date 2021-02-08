@@ -120,7 +120,7 @@ public class GameState {
             printStream.println(curPlayer.getSniper().isAlive() + " " + curPlayer.getSniper().hasOption());
             printStream.println(curPlayer.getHealer().isAlive() + " " + curPlayer.getHealer().hasOption());
             printStream.print(curPlayer.getThief().isAlive() + " " + curPlayer.getThief().hasOption() + " ");
-            if(curPlayer.getThief().getHisPrize() == null)
+            if (curPlayer.getThief().getHisPrize() == null)
                 printStream.println(false);
             else {
                 Prize curPrize = curPlayer.getThief().getHisPrize();
@@ -185,17 +185,19 @@ public class GameState {
             int sizeOfPrizes = 0;
             for (int x = 1; x <= 7; x++)
                 for (int y = 1; y <= 16; y++)
-                    if(this.getBoard().getCell(x, y).getPrize() != null)
+                    if (this.getBoard().getCell(x, y).getPrize() != null)
                         sizeOfPrizes++;
             printStream.println("PRIZES[ " + sizeOfPrizes + " ]:");
             for (int x = 1; x <= 7; x++)
                 for (int y = 1; y <= 16; y++)
-                    if(this.getBoard().getCell(x, y).getPrize() != null) {
+                    if (this.getBoard().getCell(x, y).getPrize() != null) {
                         Prize curPrize = this.getBoard().getCell(x, y).getPrize();
                         printStream.println(x + " " + y + " " + curPrize.getPoint() + " " + curPrize.getChance() +
                                 " " + curPrize.getDiceNumber());
                     }
             //-------------------------
+            printStream.flush();
+            printStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

@@ -36,7 +36,8 @@ public class Transmitter implements Transmitting {
         Player curPlayer = piece.getPlayer();
         curPlayer.applyOnScore(-3);
         piece.getDamagedBySnake();
-        piece.moveTo(getLastCell());
+        if(this.getLastCell().canEnter(piece))
+            piece.moveTo(getLastCell());
     }
 
     public Color getColor() {

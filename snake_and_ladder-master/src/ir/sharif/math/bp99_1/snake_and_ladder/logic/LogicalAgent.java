@@ -44,6 +44,7 @@ public class LogicalAgent {
         String name = player1.getName() + "_" + player2.getName();
         File tempFile = new File(gameStatesDirectory, name);
         if (tempFile.exists()) {
+            Cell.resetAllCells();
             board = modelLoader.loadBoard(new File(tempFile, "1.board"));
             player1 = modelLoader.loadPlayer(new File(tempFile, "player1.txt"));
             player2 = modelLoader.loadPlayer(new File(tempFile, "player2.txt"));
@@ -146,6 +147,13 @@ public class LogicalAgent {
      * if player two in winner set winner variable to 2
      * If the game is a draw set winner variable to 3
      */
+    public static void deleteDirectoryLegacyIO(File file) {
+        File[] list = file.listFiles();
+        if (list != null)
+            for (File temp : list)
+                deleteDirectoryLegacyIO(temp);
+        file.delete();
+    }
     private void checkForEndGame() {
         if (gameState.getTurn() > 40) {
             int winner;
@@ -162,6 +170,12 @@ public class LogicalAgent {
             modelLoader.savePlayer(gameState.getPlayer1());
             modelLoader.savePlayer(gameState.getPlayer2());
             modelLoader.archive(gameState.getPlayer1(), gameState.getPlayer2());
+            /* remove the directory */
+            File gameStatesDirectory = Config.getConfig("mainConfig").getProperty(File.class, "gameStatesDirectory");
+            String name = gameState.getPlayer1().getName() + "_" + gameState.getPlayer2().getName();
+            File tempFile = new File(gameStatesDirectory, name);
+            deleteDirectoryLegacyIO(tempFile);
+            /* new game */
             LogicalAgent logicalAgent = new LogicalAgent();
             logicalAgent.initialize();
         }

@@ -14,8 +14,7 @@ public class KillerSnake extends Transmitter {
 
     public void transmit(Piece piece) {
         piece.setAlive(false);
-        if(this.getLastCell().canEnter(piece))
-            super.transmit(piece);
+        super.transmit(piece);
     }
 
     public Color getColor() {

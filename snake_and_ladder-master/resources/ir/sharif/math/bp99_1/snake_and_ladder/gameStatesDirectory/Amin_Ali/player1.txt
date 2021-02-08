@@ -1,0 +1,9 @@
+Amin
+4
+1
+1
+1 1 1 1 1 1 5
+true false
+true true
+true false
+true false false

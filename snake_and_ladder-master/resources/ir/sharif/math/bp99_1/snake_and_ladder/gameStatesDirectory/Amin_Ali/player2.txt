@@ -1,0 +1,9 @@
+Ali
+12
+2
+2
+1 1 1 1 1 1 6
+true true
+true false
+true false
+true false false

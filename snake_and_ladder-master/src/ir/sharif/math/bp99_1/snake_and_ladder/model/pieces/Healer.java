@@ -32,6 +32,7 @@ public class Healer extends Piece {
         if (dirx != 0 && diry != 0)
             return false;
         if (Math.abs(dirx) + Math.abs(diry) <= curPlayer.getMoveLeft() && !curCell.getPiece().isAlive()) {
+            this.setOption(false);
             curCell.getPiece().setAlive(true);
             return true;
         } else

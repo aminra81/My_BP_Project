@@ -30,6 +30,7 @@ public class Sniper extends Piece{
             return false;
         if(Math.abs(dirx) + Math.abs(diry) <= curPlayer.getMoveLeft() && curCell.getPiece().isAlive()) {
             curCell.getPiece().setAlive(false);
+            this.setOption(false);
             return true;
         }
         else
